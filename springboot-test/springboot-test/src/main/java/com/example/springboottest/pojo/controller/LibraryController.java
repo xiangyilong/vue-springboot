@@ -1,4 +1,4 @@
-package com.example.springboottest.controller;
+package com.example.springboottest.pojo.controller;
 
 import com.example.springboottest.pojo.Book;
 import com.example.springboottest.service.BookService;

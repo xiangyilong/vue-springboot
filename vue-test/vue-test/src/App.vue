@@ -6,8 +6,13 @@
 </template>
 
 <script>
+import init from '@/utils/three_home'
+
 export default {
-  name: 'App'
+  name: 'App',
+  mounted () {
+    init()
+  }
 }
 </script>
 

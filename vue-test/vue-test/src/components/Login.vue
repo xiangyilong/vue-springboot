@@ -1,5 +1,6 @@
 <template>
   <body id="poster">
+<!--  <div id = "container"></div>-->
     <el-form class="login-container" label-position="left" label-width="0px">
       <h3 class="login_title">系统登录</h3>
       <el-form-item>
@@ -12,12 +13,17 @@
       <el-form-item style="width: 100%">
         <el-button type="primary" style="width: 100%;background: #505458;border: none" v-on:click="login">登录</el-button>
       </el-form-item>
+      <el-form-item style="width: 100%">
+        <el-button type="primary" style="width: 100%;background: #505458;border: none" v-on:click="register">注册</el-button>
+      </el-form-item>
     </el-form>
   </body>
 
 </template>
 
 <script>
+// import init from '@/utils/three_home'
+
 export default {
   name: 'Login',
   data () {
@@ -43,13 +49,23 @@ export default {
           if (successResponse.data.code === 200) {
             _this.$store.commit('login', _this.loginForm)
             var path = this.$route.query.redirect
-            this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
+            this.$router.replace({path: path === '/' || path === undefined ? '/home' : path})
+          } else if (successResponse.data.code === 400) {
+            alert('用户不存在')
+            _this.$router.push('/login')
           }
         })
         .catch(failResponse => {
         })
+    },
+    register () {
+      this.$router.push('/register')
     }
   }
+  // mounted () {
+  //   // const dom = document.getElementById('container')
+  //   init()
+  // }
 }
 </script>
 

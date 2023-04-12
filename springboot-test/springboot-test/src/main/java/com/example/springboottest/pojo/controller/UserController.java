@@ -1,5 +1,6 @@
-package com.example.springboottest.controller;
+package com.example.springboottest.pojo.controller;
 
+import co.elastic.clients.elasticsearch.nodes.Http;
 import com.example.springboottest.pojo.User;
 import com.example.springboottest.result.Result;
 import com.example.springboottest.service.UserService;
@@ -11,29 +12,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.HtmlUtils;
 
-import javax.servlet.http.HttpSession;
-import java.util.Objects;
-
 @Controller
-public class LoginController {
+public class UserController {
     @Autowired
     UserService userService;
 
     @CrossOrigin
-    @PostMapping(value="api/login")
+    @PostMapping(value = "api/register")
     @ResponseBody
-    public Result login(@RequestBody User requestUser, HttpSession session)
-    {
+    public Result register(@RequestBody User requestUser){
         String username = requestUser.getUsername();
         username = HtmlUtils.htmlEscape(username);
-
-        User user =userService.get(username,requestUser.getPassword());
-        if(null == user){
-            return new Result(400);
-        }else {
-            session.setAttribute("user",user);
+        System.out.println("regesiter");
+        User user = userService.getByName(username);
+        if(user == null){
+            User user1 = new User();
+            user1.setUsername(username);
+            user1.setPassword(requestUser.getPassword());
+            userService.add(user1);
             return new Result(200);
+        }else{
+            return new Result(500);
         }
     }
-
 }
